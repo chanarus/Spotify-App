@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "./context";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./components/home/Home";
-import axios from "axios";
-import "./App.css";
+import TrackInfo from "./components/trackInfo/TrackInfo";
 
 class App extends Component {
   render() {
@@ -16,6 +15,7 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/track/:id" component={TrackInfo} />
               </Switch>
             </div>
           </Fragment>
