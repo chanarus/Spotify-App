@@ -3,6 +3,19 @@ import axios from "axios";
 
 const Context = React.createContext();
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SEARCH_TRACK":
+      return {
+        ...state,
+        trackList: action.payload,
+        heading: "Search Results"
+      };
+    default:
+      return state;
+  }
+};
+
 export class Provider extends Component {
   constructor() {
     super();
@@ -10,7 +23,8 @@ export class Provider extends Component {
     this.state = {
       trackList: [],
       heading: "Top 10 Tracks",
-      loggedIn: params.access_token ? true : false
+      loggedIn: params.access_token ? true : false,
+      dispatch: action => this.setState(state => reducer(state, action))
     };
   }
 
