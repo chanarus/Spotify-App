@@ -1,19 +1,50 @@
 import React, { Component } from "react";
-import data from "./data.json";
+import axios from "axios";
 
 const Context = React.createContext();
 
 export class Provider extends Component {
-  state = {
-    trackList: [],
-    heading: "Top 10 Tracks"
-  };
+  constructor() {
+    super();
+    const params = this.getHashParams();
+    this.state = {
+      trackList: [],
+      heading: "Top 10 Tracks",
+      loggedIn: params.access_token ? true : false
+    };
+  }
+
+  /**
+   * Obtains parameters from the hash of the URL
+   * @return Object
+   */
+  getHashParams() {
+    var hashParams = {};
+    var e,
+      r = /([^&;=]+)=?([^&;]*)/g,
+      q = window.location.hash.substring(1);
+    while ((e = r.exec(q))) {
+      hashParams[e[1]] = decodeURIComponent(e[2]);
+    }
+    return hashParams;
+  }
 
   componentDidMount() {
-    console.log(data.tracks.items);
-    this.setState({
-      trackList: data.tracks.items
-    });
+    axios
+      .get(
+        "https://api.spotify.com/v1/search?q=metalica&type=track&market=US&limit=10&offset=0",
+        {
+          headers: {
+            Authorization: `Bearer ${this.getHashParams().access_token}`
+          }
+        }
+      )
+      .then(res => {
+        this.setState({
+          trackList: res.data.tracks.items
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
