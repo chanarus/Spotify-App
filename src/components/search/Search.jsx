@@ -8,43 +8,36 @@ class Search extends Component {
   state = {
     searchText: "",
     resultCount: 20,
-    track: true,
-    album: false,
-    artist: false,
-    playlist: false
+    selectedValue: "track"
   };
 
+  /**
+   * Change the state with text inputs
+   */
   handleChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
     this.setState({
-      [name]: value
+      [event.target.name]: event.target.value
     });
   };
 
-  search = (dispatch, event) => {
-    const {
-      track,
-      album,
-      artist,
-      playlist,
-      searchText,
-      resultCount
-    } = this.state;
-    event.preventDefault();
-    let type = "";
-    if (track) type += "track,";
-    if (album) type += "album,";
-    if (artist) type += "artist,";
-    if (playlist) type += "playlist,";
+  /**
+   * Change the state with radio inputs
+   */
+  handleSelectedChange = event => {
+    this.setState({ selectedValue: event.target.value });
+  };
 
-    type = type.slice(0, -1);
+  /**
+   * Search using the api
+   * After responce dispath it to change the globle state
+   */
+  search = (dispatch, event) => {
+    event.preventDefault();
+    const { selectedValue, searchText, resultCount } = this.state;
 
     axios
       .get(
-        `https://api.spotify.com/v1/search?q=${searchText}&type=${type}&market=US&limit=${resultCount}&offset=0`,
+        `https://api.spotify.com/v1/search?q=${searchText}&type=${selectedValue}&market=US&limit=${resultCount}&offset=0`,
         {
           headers: {
             Authorization: `Bearer ${getHashParams().access_token}`
@@ -52,11 +45,21 @@ class Search extends Component {
         }
       )
       .then(res => {
+        const { searchText, selectedValue } = this.state;
+        let payload = [];
+        if (selectedValue === "track") payload = res.data.tracks.items;
+        if (selectedValue === "artist") payload = res.data.artists.items;
+        if (selectedValue === "album") payload = res.data.albums.items;
+        if (selectedValue === "playlist") payload = res.data.playlists.items;
         dispatch({
-          type: "SEARCH_TRACK",
-          payload: res.data.tracks.items
+          type: "SEARCH",
+          payload,
+          heading: `Search Result for ${searchText}`,
+          searchType: selectedValue,
+          noResult: payload.length ? false : true
         });
 
+        //Clear the search text input
         this.setState({
           searchText: ""
         });
@@ -88,40 +91,43 @@ class Search extends Component {
                   />
                   <div className="form-row">
                     <div className="col-md-9 col-sm-12 d-flex flex-wrap">
-                      <div className="custom-control custom-checkbox">
+                      <div className="custom-control custom-radio">
                         <input
                           className="custom-control-input"
                           id="track"
-                          type="checkbox"
-                          name="track"
-                          checked={this.state.track}
-                          onChange={this.handleChange}
+                          value="track"
+                          type="radio"
+                          name="searchType"
+                          checked={this.state.selectedValue === "track"}
+                          onChange={this.handleSelectedChange}
                         />
                         <label className="custom-control-label" htmlFor="track">
                           Track
                         </label>
                       </div>
-                      <div className="custom-control custom-checkbox">
+                      <div className="custom-control custom-radio">
                         <input
                           className="custom-control-input"
                           id="album"
-                          type="checkbox"
-                          name="album"
-                          checked={this.state.album}
-                          onChange={this.handleChange}
+                          value="album"
+                          type="radio"
+                          name="searchType"
+                          checked={this.state.selectedValue === "album"}
+                          onChange={this.handleSelectedChange}
                         />
                         <label className="custom-control-label" htmlFor="album">
                           Album
                         </label>
                       </div>
-                      <div className="custom-control custom-checkbox">
+                      <div className="custom-control custom-radio">
                         <input
                           className="custom-control-input"
                           id="artist"
-                          type="checkbox"
-                          name="artist"
-                          checked={this.state.artist}
-                          onChange={this.handleChange}
+                          value="artist"
+                          type="radio"
+                          name="searchType"
+                          checked={this.state.selectedValue === "artist"}
+                          onChange={this.handleSelectedChange}
                         />
                         <label
                           className="custom-control-label"
@@ -130,14 +136,15 @@ class Search extends Component {
                           Artist
                         </label>
                       </div>
-                      <div className="custom-control custom-checkbox">
+                      <div className="custom-control custom-radio">
                         <input
                           className="custom-control-input"
                           id="playlist"
-                          type="checkbox"
-                          name="playlist"
-                          checked={this.state.playlist}
-                          onChange={this.handleChange}
+                          value="playlist"
+                          type="radio"
+                          name="searchType"
+                          checked={this.state.selectedValue === "playlist"}
+                          onChange={this.handleSelectedChange}
                         />
                         <label
                           className="custom-control-label"
@@ -148,14 +155,25 @@ class Search extends Component {
                       </div>
                     </div>
                     <div className="col-md-3 col-sm-12">
-                      <input
-                        type="number"
-                        className="form-control"
-                        placeholder="Result Count"
-                        name="resultCount"
-                        value={this.state.resultCount}
-                        onChange={this.handleChange}
-                      />
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span
+                            className="input-group-text"
+                            id="inputGroupPrepend"
+                          >
+                            Results
+                          </span>
+                        </div>
+                        <input
+                          type="number"
+                          className="form-control"
+                          placeholder="Result Count"
+                          name="resultCount"
+                          id="resultCount"
+                          value={this.state.resultCount}
+                          onChange={this.handleChange}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

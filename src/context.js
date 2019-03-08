@@ -3,13 +3,21 @@ import axios from "axios";
 
 const Context = React.createContext();
 
+/**
+ * Reducer for the search
+ * Update the globle state after api returns the data
+ * @param state
+ * @param action
+ */
 const reducer = (state, action) => {
   switch (action.type) {
-    case "SEARCH_TRACK":
+    case "SEARCH":
       return {
         ...state,
         trackList: action.payload,
-        heading: "Search Results"
+        heading: action.heading,
+        searchType: action.searchType,
+        noResult: action.noResult
       };
     default:
       return state;
@@ -38,11 +46,16 @@ export class Provider extends Component {
     this.state = {
       trackList: [],
       heading: "Top 10 Tracks",
+      searchType: "track",
+      noResult: false,
       loggedIn: params.access_token ? true : false,
       dispatch: action => this.setState(state => reducer(state, action))
     };
   }
 
+  /**
+   * Initial request for the api to load data.
+   */
   componentDidMount() {
     axios
       .get(
