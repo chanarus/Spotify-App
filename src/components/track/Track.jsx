@@ -1,11 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import "./Track.css";
+import placeholderImg from "../../placeholder.jpg";
 
 const Track = props => {
-  const { album, name, popularity, artists, id } = props.track;
-  const imgSrc = props.track.album.images[1].url;
-  console.log(props.track.album.images[1].url);
+  const { album, name, popularity, artists, external_urls } = props.track;
+  const imgSrc = props.track.album.images.length
+    ? props.track.album.images[1].url
+    : placeholderImg;
   return (
     <div className="col-md-4 col-lg-3 track">
       <div className="track-content">
@@ -33,14 +36,27 @@ const Track = props => {
               </strong>
               : {popularity}
             </p>
-            <Link to={`track/${id}`} className="btn btn-outline-success btn-sm">
-              <i className="fas fa-chevron-right" /> More Details
-            </Link>
+            <a
+              href={external_urls.spotify}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline-success btn-sm"
+            >
+              <i className="fas fa-chevron-right" /> Play Now
+            </a>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+Track.propTypes = {
+  name: PropTypes.string,
+  popularity: PropTypes.number,
+  external_urls: PropTypes.object,
+  artists: PropTypes.array,
+  album: PropTypes.object
 };
 
 export default Track;
