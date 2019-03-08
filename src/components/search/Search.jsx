@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import { Consumer } from "../../context";
 import axios from "axios";
 import { getHashParams } from "../../context";
+import "./Search.css";
 
 class Search extends Component {
   state = {
     searchText: "",
-    resultCount: 10,
+    resultCount: 20,
     track: true,
     album: false,
     artist: false,
@@ -71,8 +72,8 @@ class Search extends Component {
           return (
             <div className="card card-body mb-4 p-4">
               <h1 className="display-4 text-center">
-                <i className="fas fa-music" />
-                Search
+                <i className="fab fa-spotify" />
+                &nbsp; Search
               </h1>
               <form onSubmit={this.search.bind(this, dispatch)}>
                 <div className="form-group">
@@ -86,45 +87,67 @@ class Search extends Component {
                     onChange={this.handleChange}
                   />
                   <div className="form-row">
-                    <div className="col-9 sm-6">
-                      <label className="checkbox-inline pr-4">
+                    <div className="col-md-9 col-sm-12 d-flex flex-wrap">
+                      <div className="custom-control custom-checkbox">
                         <input
+                          className="custom-control-input"
+                          id="track"
                           type="checkbox"
                           name="track"
                           checked={this.state.track}
                           onChange={this.handleChange}
                         />
-                        Track
-                      </label>
-                      <label className="checkbox-inline pr-4">
+                        <label className="custom-control-label" htmlFor="track">
+                          Track
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox">
                         <input
+                          className="custom-control-input"
+                          id="album"
                           type="checkbox"
                           name="album"
                           checked={this.state.album}
                           onChange={this.handleChange}
                         />
-                        Album
-                      </label>
-                      <label className="checkbox-inline pr-4">
+                        <label className="custom-control-label" htmlFor="album">
+                          Album
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox">
                         <input
+                          className="custom-control-input"
+                          id="artist"
                           type="checkbox"
                           name="artist"
                           checked={this.state.artist}
                           onChange={this.handleChange}
                         />
-                        Artist
-                      </label>
-                      <label className="checkbox-inline pr-4">
+                        <label
+                          className="custom-control-label"
+                          htmlFor="artist"
+                        >
+                          Artist
+                        </label>
+                      </div>
+                      <div className="custom-control custom-checkbox">
                         <input
+                          className="custom-control-input"
+                          id="playlist"
                           type="checkbox"
                           name="playlist"
                           checked={this.state.playlist}
                           onChange={this.handleChange}
                         />
-                        Playlist
-                      </label>
+                        <label
+                          className="custom-control-label"
+                          htmlFor="playlist"
+                        >
+                          Playlist
+                        </label>
+                      </div>
                     </div>
-                    <div className="col-3 sm-6">
+                    <div className="col-md-3 col-sm-12">
                       <input
                         type="number"
                         className="form-control"
@@ -138,7 +161,7 @@ class Search extends Component {
                 </div>
 
                 <button
-                  className="btn btn-primary btn-lg btn-block mb-5"
+                  className="btn btn-success btn-lg btn-block mb-5"
                   type="submit"
                 >
                   Search

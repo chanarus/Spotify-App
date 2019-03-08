@@ -46,7 +46,7 @@ export class Provider extends Component {
   componentDidMount() {
     axios
       .get(
-        "https://api.spotify.com/v1/search?q=metalica&type=track&market=US&limit=10&offset=0",
+        "https://api.spotify.com/v1/search?q=linkin%20park&type=track&market=US&limit=20&offset=0",
         {
           headers: {
             Authorization: `Bearer ${getHashParams().access_token}`

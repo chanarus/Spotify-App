@@ -1,17 +1,18 @@
 import React from "react";
+import "./Login.css";
 
 const Login = () => {
   return (
     <div className="container">
-      <div className="card card-body mb-4 p-4">
-        <h2 className="display-5 text-center mb-4">
-          <i className="fas fa-sign-in-alt" />
-          Please loggin to search...
-        </h2>
-        <a href="http://localhost:8888">
-          <button className="btn btn-primary btn-lg btn-block mb-2">
-            Login
-          </button>
+      <div className="form-signin text-center">
+        <h1 className="h3 mb-3 font-weight-normal">
+          <i className="fas fa-sign-in-alt" /> Please sign in
+        </h1>
+        <a
+          className="btn btn-lg btn-primary btn-block"
+          href="http://localhost:8888"
+        >
+          Sign in
         </a>
       </div>
     </div>
