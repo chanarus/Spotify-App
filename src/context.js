@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import request from "request";
-import { client_id, client_secret } from "./config/key";
 
 const Context = React.createContext();
 
@@ -49,9 +48,11 @@ export class Provider extends Component {
 			headers: {
 				Authorization:
 					"Basic " +
-					new Buffer(client_id + ":" + client_secret).toString(
-						"base64"
-					)
+					new Buffer(
+						process.env.REACT_APP_SPOTIFY_CLIENT_ID +
+							":" +
+							process.env.REACT_APP_SPOTIFY_CLIENT_SECRET
+					).toString("base64")
 			},
 			form: {
 				grant_type: "client_credentials"
