@@ -36,13 +36,13 @@ The application support all three viewport (despot, tablet and mobile).
     ├── node_modules
     ├── package.json
     ├── .gitignore
+    ├── .env
     ├── public
     │   ├── favicon.ico
     │   ├── index.html
     │   └── manifest.json
     └── src
-        ├──  components
-        ├──  config
+        ├── components
         ├── App.css
         ├── App.js
         ├── App.test.js
@@ -50,7 +50,7 @@ The application support all three viewport (despot, tablet and mobile).
         ├── index.css
         ├── index.js
         ├── spinner.gif
-        ├──  placeholder.jpg
+        ├── placeholder.jpg
         └── serviceWorker.js
     ```
 
