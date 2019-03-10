@@ -4,7 +4,7 @@
 
 .track-content {
 	position: relative;
-	height: 250px;
+	height: 280px;
 	overflow: hidden;
 }
 
@@ -75,8 +75,20 @@
 	height: 100%;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 1200px) {
 	.track-content {
-		height: 415px;
+		height: 250px;
+	}
+}
+
+@media only screen and (max-width: 420px) {
+	.track-content {
+		height: 400px;
+	}
+}
+
+@media only screen and (max-width: 320px) {
+	.track-content {
+		height: 315px;
 	}
 }
