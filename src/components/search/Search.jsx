@@ -81,7 +81,7 @@ class Search extends Component {
 						dispatch({
 							type: "SEARCH",
 							payload,
-							heading: `Search Result for ${searchText}`,
+							heading: `Search Result for ${selectedValue}: ${searchText}`,
 							searchType: selectedValue,
 							noResult: payload.length ? false : true
 						});
