@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Consumer } from "../../context";
 import Track from "../track/Track";
 import Album from "../album/Album";
-import Artist from "../artist/Arrist";
+import Artist from "../artist/Artist";
 import Playlist from "../playlist/Playlist";
 import Spinner from "../Spinner";
 
