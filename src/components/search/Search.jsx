@@ -36,6 +36,7 @@ class Search extends Component {
 		event.preventDefault();
 		const { selectedValue, searchText, resultCount } = this.state;
 
+		//Set the auth options
 		const authOptions = {
 			url:
 				"https://cors-anywhere.herokuapp.com/https://accounts.spotify.com/api/token",
@@ -51,10 +52,12 @@ class Search extends Component {
 			},
 			json: true
 		};
+		//Send the post request to the api to get a access token
 		request.post(authOptions, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
 				// use the access token to access the Spotify Web API
 				const token = body.access_token;
+				//using the access token get the data from the api
 				axios
 					.get(
 						`https://api.spotify.com/v1/search?q=${searchText}&type=${selectedValue}&market=US&limit=${resultCount}&offset=0`,
@@ -217,24 +220,32 @@ class Search extends Component {
 										<div className="col-md-3 col-sm-12">
 											<div className="input-group">
 												<div className="input-group-prepend">
-													<span
-														className="input-group-text"
-														id="inputGroupPrepend"
-													>
+													<span className="input-group-text">
 														Results
 													</span>
 												</div>
-												<input
-													type="number"
-													className="form-control"
-													placeholder="Result Count"
-													name="resultCount"
-													id="resultCount"
+												<select
+													className="custom-select"
 													value={
 														this.state.resultCount
 													}
 													onChange={this.handleChange}
-												/>
+													name="resultCount"
+												>
+													<option value="5">5</option>
+													<option value="10">
+														10
+													</option>
+													<option value="20">
+														20
+													</option>
+													<option value="50">
+														50
+													</option>
+													<option value="100">
+														100
+													</option>
+												</select>
 											</div>
 										</div>
 									</div>
