@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import "./Track.css";
 import placeholderImg from "../../placeholder.jpg";
 
 const Track = props => {

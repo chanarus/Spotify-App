@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import "./Artist.css";
 import placeholderImg from "../../placeholder.jpg";
 
 const Artist = props => {
