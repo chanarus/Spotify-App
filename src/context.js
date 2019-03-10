@@ -42,6 +42,7 @@ export class Provider extends Component {
 	 * Initial request for the api to load data.
 	 */
 	componentDidMount() {
+		//Set the auth options
 		const authOptions = {
 			url:
 				"https://cors-anywhere.herokuapp.com/https://accounts.spotify.com/api/token",
@@ -57,10 +58,12 @@ export class Provider extends Component {
 			},
 			json: true
 		};
+		//Send the post request to the api to get a access token
 		request.post(authOptions, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
 				// use the access token to access the Spotify Web API
 				const token = body.access_token;
+				//using the access token get the data from the api
 				axios
 					.get(
 						"https://api.spotify.com/v1/search?q=linkin%20park&type=track&market=US&limit=20&offset=0",
